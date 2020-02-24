@@ -14,7 +14,7 @@ WORKDIR /app
 COPY docker/docker-entrypoint.sh /
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
-RUN (crontab -l 2>/dev/null; echo "0 0 * * * php /app/app.php prepare") | crontab -
-RUN (crontab -l 2>/dev/null; echo "0 */2 * * * php /app/app.php check") | crontab -
+RUN (crontab -l; echo "0 0 * * * php /app/app.php prepare") | crontab -
+RUN (crontab -l; echo "0 */2 * * * php /app/app.php check") | crontab -
 
 CMD [ "/usr/sbin/crond", "-f" ]
