@@ -11,10 +11,8 @@ COPY --from=composer:1.9.3 /usr/bin/composer /usr/bin/composer
 COPY . /app
 WORKDIR /app
 
-COPY docker/docker-entrypoint.sh /
-ENTRYPOINT ["/docker-entrypoint.sh"]
-
 RUN (crontab -l; echo "0 0 * * * php /app/app.php prepare") | crontab -
 RUN (crontab -l; echo "0 */2 * * * php /app/app.php check") | crontab -
 
-CMD [ "/usr/sbin/crond", "-f" ]
+CMD composer install \
+    && /usr/sbin/crond -f
